@@ -1,0 +1,87 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// a. Base class Student (virtual)
+class Student {
+protected:
+    int rollNo;
+    string name;
+
+public:
+    void readStudent() {
+        cout << "Enter roll number: ";
+        cin >> rollNo;
+        cin.ignore();
+        cout << "Enter name: ";
+        getline(cin, name);
+    }
+
+    void displayStudent() const {
+        cout << "Roll No: " << rollNo << endl;
+        cout << "Name: " << name << endl;
+    }
+};
+
+// b. Class Test inherits virtual Student
+class Test : virtual public Student {
+protected:
+    int mark1, mark2;
+
+public:
+    void readMarks() {
+        cout << "Enter marks for two subjects: ";
+        cin >> mark1 >> mark2;
+    }
+
+    void displayMarks() const {
+        cout << "Subject 1 Marks: " << mark1 << endl;
+        cout << "Subject 2 Marks: " << mark2 << endl;
+    }
+};
+
+// c. Class Sports inherits virtual Student
+class Sports : virtual public Student {
+protected:
+    int score;
+
+public:
+    void readScore() {
+        cout << "Enter sports score: ";
+        cin >> score;
+    }
+
+    void displayScore() const {
+        cout << "Sports Score: " << score << endl;
+    }
+};
+
+// d. Class Result inherits Test and Sports
+class Result : public Test, public Sports {
+private:
+    int total;
+
+public:
+    void calculateTotal() {
+        total = mark1 + mark2 + score;
+    }
+
+    void displayResult() {
+        displayStudent();
+        displayMarks();
+        displayScore();
+        cout << "Total Score (Test + Sports): " << total << endl;
+    }
+};
+
+// Main function
+int main() {
+    Result r;
+    r.readStudent();
+    r.readMarks();
+    r.readScore();
+    r.calculateTotal();
+    cout << "\n----- Result -----\n";
+    r.displayResult();
+    return 0;
+}
