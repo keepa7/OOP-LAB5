@@ -1,0 +1,80 @@
+#include <iostream>
+using namespace std;
+
+// Abstract base class
+class CentralBank {
+protected:
+    float ird; // Interest rate for deposit
+    float irl; // Interest rate for loan
+
+public:
+    // Pure virtual functions
+    virtual void getData() = 0;
+    virtual void displayData() = 0;
+    virtual float calculateInterestAmount(float amount, bool isLoan, int years) = 0;
+};
+
+// Derived class: NMB Bank
+class NMB : public CentralBank {
+public:
+    void getData() override {
+        cout << "--- NMB Bank ---" << endl;
+        cout << "Enter deposit interest rate (%): ";
+        cin >> ird;
+        cout << "Enter loan interest rate (%): ";
+        cin >> irl;
+    }
+
+    void displayData() override {
+        cout << "NMB Deposit Rate: " << ird << "%" << endl;
+        cout << "NMB Loan Rate: " << irl << "%" << endl;
+    }
+
+    float calculateInterestAmount(float amount, bool isLoan, int years) override {
+        float rate = isLoan ? irl : ird;
+        return (amount * rate * years) / 100;
+    }
+};
+
+// Derived class: Global Bank
+class GlobalBank : public CentralBank {
+public:
+    void getData() override {
+        cout << "--- Global Bank ---" << endl;
+        cout << "Enter deposit interest rate (%): ";
+        cin >> ird;
+        cout << "Enter loan interest rate (%): ";
+        cin >> irl;
+    }
+
+    void displayData() override {
+        cout << "Global Bank Deposit Rate: " << ird << "%" << endl;
+        cout << "Global Bank Loan Rate: " << irl << "%" << endl;
+    }
+
+    float calculateInterestAmount(float amount, bool isLoan, int years) override {
+        float rate = isLoan ? irl : ird;
+        return (amount * rate * years) / 100;
+    }
+};
+
+// Main function
+int main() {
+    CentralBank* bank;
+
+    NMB nmb;
+    bank = &nmb;
+    bank->getData();
+    bank->displayData();
+    cout << "Interest on Rs.10000 deposit for 2 years in NMB: Rs."
+         << bank->calculateInterestAmount(10000, false, 2) << "\n\n";
+
+    GlobalBank gb;
+    bank = &gb;
+    bank->getData();
+    bank->displayData();
+    cout << "Interest on Rs.10000 loan for 2 years in GlobalBank: Rs."
+         << bank->calculateInterestAmount(10000, true, 2) << endl;
+
+    return 0;
+}
