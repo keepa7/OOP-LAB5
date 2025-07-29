@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+// Abstract base class
+class Fmachine {
+public:
+    // Pure virtual functions
+    virtual void getdata() = 0;
+    virtual void putdata() = 0;
+
+    // Virtual destructor
+    virtual ~Fmachine() {}
+};
+
+// Derived class: Aeroplane
+class Aeroplane : public Fmachine {
+private:
+    int code;
+    string name;
+    int capacity;
+
+public:
+    void getdata() override {
+        cout << "Enter Aeroplane Code: ";
+        cin >> code;
+        cin.ignore(); // Clear newline from buffer
+        cout << "Enter Aeroplane Name: ";
+        getline(cin, name);
+        cout << "Enter Aeroplane Capacity: ";
+        cin >> capacity;
+    }
+
+    void putdata() override {
+        cout << "\n--- Aeroplane Details ---" << endl;
+        cout << "Code: " << code << endl;
+        cout << "Name: " << name << endl;
+        cout << "Capacity: " << capacity << endl;
+    }
+};
+
+// Main function
+int main() {
+    // Pointer to abstract base class
+    Fmachine* fptr;
+
+    // Dynamically create an Aeroplane object
+    fptr = new Aeroplane();
+
+    // Use dynamic binding to call derived class functions
+    fptr->getdata();
+    fptr->putdata();
+
+    // Free memory
+    delete fptr;
+
+    return 0;
+}
